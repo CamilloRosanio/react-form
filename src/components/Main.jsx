@@ -30,6 +30,7 @@ function Main() {
 
     const clearAll = () => {
         setIdFilter('');
+        setFeed(Articles);
     }
 
 
@@ -42,6 +43,7 @@ function Main() {
     // FILTERS
 
     const handleIdFilter = (e) => {
+        setFeed(Articles);
         setIdFilter(e.target.value);
     }
 
@@ -51,22 +53,13 @@ function Main() {
     const handleFormSubmit = async (e) => {
 
         // Impedisce che al SUBMIT venga ricaricata l'intera pagina
-        await e.preventDefault();
-
-        // Aggiorno lo USE-STATE dei FILTERS tramite il mio Array di supporto contenente le KEYS
-
-        await setFeed(Articles);
+        e.preventDefault();
 
         console.log('You searched for ID: ' + e.target.idFilter.value);
 
-        let filteredFeed = await Feed.filter(item => item.id == idFilter);
+        let filteredFeed = Feed.filter(item => item.id == idFilter);
 
-        await setFeed(filteredFeed);
-
-        console.log('FEED');
-        console.log(Feed);
-        console.log('ARTICLES');
-        console.log(Articles);
+        setFeed(filteredFeed);
     }
 
 
@@ -91,7 +84,7 @@ function Main() {
                             .map((feedItem) => (
                                 <li key={feedItem.id} className=''>
                                     <div className='feedItem'>
-                                        <h4>{feedItem.id}</h4>
+                                        <h4>{'ID ' + feedItem.id}</h4>
 
                                         <button
                                             onClick={() => modifyTitle()}
