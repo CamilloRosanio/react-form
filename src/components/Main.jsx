@@ -1,7 +1,16 @@
 import { useState } from 'react';
 import Articles from '../data/Articles';
 
+
 function Main() {
+
+    // Dichiaro un OBJECT di supporto contenente tutte le KEYS da usare come FILTER.
+    // Dichiaro anche una variabile che sia il CONCAT dei valori delle KEYS
+
+    const filterKeys = {
+        idFilter: 'ID',
+    }
+
 
     // Tramite USE-STATE imposto tutti i valori di DEFAULT iniziali delle variabili che voglio rendere reattive
 
@@ -13,48 +22,83 @@ function Main() {
 
     // Funzioni HANDLE
 
-    const clearForm = () => {
-        setIdFilter('ID');
+    const handleClearFilters = () => {
+        setFeed(Articles);
     }
 
-    const handleIdFilter = (e) => {
-        setIdFilter(e.target.value);
+
+    // MODIFY TITLE
+    const modifyTitle = () => {
+        console.log('modify title');
     }
+
+
+    // FILTERS
+
+    const handleIdFilter = (e) => {
+        let filterKeyName = (e.target.name);
+        filterKeys[e.target.name] = e.target.value;
+    }
+
+
+    // FORM SUBMIT
+
+    const handleFormSubmit = () => {
+
+        // Impedisce che al SUBMIT venga ricaricata l'intera pagina
+        event.preventDefault();
+
+        // Aggiorno lo USE-STATE dei FILTERS tramite il mio Array di supporto contenente le KEYS
+        setIdFilter(filterKeys.idFilter);
+    }
+
+
 
     return (
         <>
             <main>
                 <div className="container">
 
-                    <form action="" className='debug'>
-                        <input type="text" className='debug' value={idFilter} onClick={() => setIdFilter('')} onChange={handleIdFilter} />
-                        {/* <input type="text" placeholder='Author' className='debug' />
-                        <input type="text" placeholder='Title' className='debug' />
-                        <input type="text" placeholder='State' className='debug' /> */}
+                    <form action="" className='debug' onSubmit={handleFormSubmit}>
+                        <input type="text" className='debug' name='idFilter' placeholder='ID' onChange={handleIdFilter} />
 
+                        {/* Pur non essendo esplicitato, essendo questo BUTTON dentro il FORM, al CLICK eseguirà il SUBMIT */}
                         <button>Search</button>
-                        <button type='button' onClick={clearForm}>Clear form</button>
+
+                        {/* Assegnando type=button questo bottone al click NON eseguirà il SUBMIT del FORM */}
+                        <button type='button' onClick={handleClearFilters}>Clear filters</button>
                     </form>
 
                     <ul className="feed">
                         {Feed
-                            .filter(article => article.id == idFilter)
-                            .map(article => (
-                                <li key={article.id} className=''>
+                            .filter(item => item.id == idFilter)
+                            .map((feedItem) => (
+                                <li key={feedItem.id} className=''>
                                     <div className='feedItem'>
-                                        <h4>{article.id}</h4>
-                                        <button>Modify Title</button>
-                                        <button>Delete</button>
-                                        <h3>{article.title}</h3>
-                                        <p>{article.content}</p>
-                                        <p>{article.author}</p>
+                                        <h4>{feedItem.id}</h4>
+
+                                        <button
+                                            onClick={() => modifyTitle()}
+                                        >
+                                            Modify Title
+                                        </button>
+
+                                        <button
+                                            onClick={() => setFeed(Feed.filter(item => item.id != feedItem.id))}
+                                        >
+                                            Delete
+                                        </button>
+
+                                        <h3>{feedItem.title}</h3>
+                                        <p>{feedItem.content}</p>
+                                        <p>{feedItem.author}</p>
                                     </div>
                                 </li>
                             ))}
                     </ul>
 
                 </div>
-            </main>
+            </main >
         </>
     )
 }
