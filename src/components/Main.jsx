@@ -35,7 +35,7 @@ function Main() {
 
     // MODIFY TITLE
     const modifyTitle = () => {
-        console.log('modify title');
+        newTitle = prompt('Assign a new Title');
     }
 
 
