@@ -30,7 +30,6 @@ function Main() {
 
     const clearAll = () => {
         setIdFilter('');
-        setFeed(Articles);
     }
 
 
@@ -55,6 +54,8 @@ function Main() {
         // Impedisce che al SUBMIT venga ricaricata l'intera pagina
         e.preventDefault();
 
+        await setFeed(Articles);
+
         console.log('You searched for ID: ' + e.target.idFilter.value);
 
         let filteredFeed = Feed.filter(item => item.id == idFilter);
@@ -69,14 +70,14 @@ function Main() {
             <main>
                 <div className="container">
 
-                    <form action="" className='debug' onSubmit={handleFormSubmit}>
-                        <input type="text" className='debug' name='idFilter' value={idFilter} onChange={handleIdFilter} onClick={clearAll} />
+                    <form action="" className='inputsContainer' onSubmit={handleFormSubmit}>
+                        <input type="text" className='filterInput' name='idFilter' value={idFilter} onChange={handleIdFilter} onClick={clearAll} />
 
                         {/* Pur non essendo esplicitato, essendo questo BUTTON dentro il FORM, al CLICK eseguirà il SUBMIT */}
-                        <button>Search</button>
+                        <button className='button'>Search</button>
 
                         {/* Assegnando type=button questo bottone al click NON eseguirà il SUBMIT del FORM */}
-                        <button type='button' onClick={handleClearFilters}>Clear filters</button>
+                        <button type='button' onClick={handleClearFilters} className='button red'>Clear filters</button>
                     </form>
 
                     <ul className="feed">
@@ -88,19 +89,21 @@ function Main() {
 
                                         <button
                                             onClick={() => modifyTitle()}
+                                            className='button gold'
                                         >
                                             Modify Title
                                         </button>
 
                                         <button
                                             onClick={() => setFeed(Feed.filter(item => item.id != feedItem.id))}
+                                            className='button red'
                                         >
                                             Delete
                                         </button>
 
                                         <h3>{feedItem.title}</h3>
                                         <p>{feedItem.content}</p>
-                                        <p>{feedItem.author}</p>
+                                        <h5>{feedItem.author}</h5>
                                     </div>
                                 </li>
                             ))}

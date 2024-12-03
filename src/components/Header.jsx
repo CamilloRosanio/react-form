@@ -4,7 +4,7 @@ function Header() {
         <>
             <header>
                 <div className="container">
-                    <h1 className='debug'>My Articles</h1>
+                    <h1>My Articles</h1>
                 </div>
             </header>
         </>
