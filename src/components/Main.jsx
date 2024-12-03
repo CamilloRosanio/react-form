@@ -24,6 +24,12 @@ function Main() {
 
     const handleClearFilters = () => {
         setFeed(Articles);
+        setIdFilter('ID');
+    }
+
+
+    const clearAll = () => {
+        setIdFilter('');
     }
 
 
@@ -36,20 +42,31 @@ function Main() {
     // FILTERS
 
     const handleIdFilter = (e) => {
-        let filterKeyName = (e.target.name);
-        filterKeys[e.target.name] = e.target.value;
+        setIdFilter(e.target.value);
     }
 
 
     // FORM SUBMIT
 
-    const handleFormSubmit = () => {
+    const handleFormSubmit = async (e) => {
 
         // Impedisce che al SUBMIT venga ricaricata l'intera pagina
-        event.preventDefault();
+        await e.preventDefault();
 
         // Aggiorno lo USE-STATE dei FILTERS tramite il mio Array di supporto contenente le KEYS
-        setIdFilter(filterKeys.idFilter);
+
+        await setFeed(Articles);
+
+        console.log('You searched for ID: ' + e.target.idFilter.value);
+
+        let filteredFeed = await Feed.filter(item => item.id == idFilter);
+
+        await setFeed(filteredFeed);
+
+        console.log('FEED');
+        console.log(Feed);
+        console.log('ARTICLES');
+        console.log(Articles);
     }
 
 
@@ -60,7 +77,7 @@ function Main() {
                 <div className="container">
 
                     <form action="" className='debug' onSubmit={handleFormSubmit}>
-                        <input type="text" className='debug' name='idFilter' placeholder='ID' onChange={handleIdFilter} />
+                        <input type="text" className='debug' name='idFilter' value={idFilter} onChange={handleIdFilter} onClick={clearAll} />
 
                         {/* Pur non essendo esplicitato, essendo questo BUTTON dentro il FORM, al CLICK eseguirà il SUBMIT */}
                         <button>Search</button>
@@ -71,7 +88,6 @@ function Main() {
 
                     <ul className="feed">
                         {Feed
-                            .filter(item => item.id == idFilter)
                             .map((feedItem) => (
                                 <li key={feedItem.id} className=''>
                                     <div className='feedItem'>
