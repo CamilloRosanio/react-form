@@ -23,12 +23,26 @@
 }
 
 
+
+/******************************************
+# GENERAL
+/******************************************/
+
+.feedItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+
+
 /******************************************
 # DEBUG
 /******************************************/
 
 .debug {
   background-color: rgb(215, 255, 242);
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding: 1rem;
+  border: 1px dashed rgb(145, 145, 145);
 }
