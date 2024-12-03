@@ -3,7 +3,9 @@ function Header() {
     return (
         <>
             <header>
-                <h1>H1 Title</h1>
+                <div className="container">
+                    <h1 className='debug'>H1 Title</h1>
+                </div>
             </header>
         </>
     )

@@ -3,12 +3,20 @@ import Articles from '../data/Articles';
 
 function Header() {
 
-    const [Articles, setArticles] = useState(Articles);
+    const [Feed, setFeed] = useState(Articles);
 
     return (
         <>
             <main>
                 <div className="container">
+
+                    <form action="" className='debug'>
+                        <input className='debug' type="text" />
+                        <button className='debug'>Ricerca</button>
+                    </form>
+
+
+
 
                 </div>
             </main>
